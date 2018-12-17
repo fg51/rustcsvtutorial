@@ -10,12 +10,16 @@ use std::io;
 use std::process;
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "PascalCase")]
 struct Record {
+    #[serde(rename = "Latitude")]
     latitude: f64,
+    #[serde(rename = "Longitude")]
     longitude: f64,
+    #[serde(rename = "Population")]
     population: Option<u64>,
+    #[serde(rename = "City")]
     city: String,
+    #[serde(rename = "State")]
     state: String,
 }
 
