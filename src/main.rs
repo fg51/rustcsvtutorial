@@ -1,4 +1,4 @@
-// tutorial-setup-01.rs
+// tutorial-read-serde-01
 
 extern crate csv;
 
@@ -15,12 +15,21 @@ fn main() {
 }
 
 fn run() -> Result<(), Box<Error>> {
-    let mut rdr = csv::ReaderBuilder::new()
-        .has_headers(false)
-        .from_reader(io::stdin());
+    let mut rdr = csv::Reader::from_reader(io::stdin());
     for i in rdr.records() {
         let record = i?;
-        println!("{:?}", record);
+
+        let city = &record[0];
+        let state = &record[1];
+
+        let pop: Option<u64> = record[2].parse().ok();
+        let latitude: f64 = record[3].parse()?;
+        let longitude: f64 = record[4].parse()?;
+
+        println!(
+            "city: {:?}, state: {:?}, \
+             pop: {:?}, latitude: {:?}, longitude: {:?}",
+             city, state, pop, latitude, longitude);
     }
     Ok(())
 }
