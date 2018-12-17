@@ -1,4 +1,4 @@
-// tutorial-setup-01.rs
+// tutorial-read-serde-02
 
 extern crate csv;
 
@@ -6,6 +6,7 @@ use std::error::Error;
 use std::io;
 use std::process;
 
+type Record = (String, String, Option<u64>, f64, f64);
 
 fn main() {
     if let Err(err) = run() {
@@ -15,11 +16,9 @@ fn main() {
 }
 
 fn run() -> Result<(), Box<Error>> {
-    let mut rdr = csv::ReaderBuilder::new()
-        .has_headers(false)
-        .from_reader(io::stdin());
-    for i in rdr.records() {
-        let record = i?;
+    let mut rdr = csv::Reader::from_reader(io::stdin());
+    for i in rdr.deserialize() {
+        let record: Record = i?;
         println!("{:?}", record);
     }
     Ok(())
