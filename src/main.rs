@@ -2,14 +2,23 @@
 
 extern crate csv;
 
+use std::error::Error;
 use std::io;
+use std::process;
 
 
 fn main() {
-    let mut rdr = csv::Reader::from_reader(io::stdin());
+    if let Err(err) = run() {
+        println!("{}", err);
+        process::exit(1);
+    }
+}
 
+fn run() -> Result<(), Box<Error>> {
+    let mut rdr = csv::Reader::from_reader(io::stdin());
     for i in rdr.records() {
-        let record = i.expect("a CSV record");
+        let record = i?;
         println!("{:?}", record);
     }
+    Ok(())
 }
