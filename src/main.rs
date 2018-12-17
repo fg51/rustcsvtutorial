@@ -1,12 +1,23 @@
 // tutorial-read-serde-02
 
 extern crate csv;
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
 
 use std::error::Error;
 use std::io;
 use std::process;
 
-type Record = (String, String, Option<u64>, f64, f64);
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+struct Record {
+    latitude: f64,
+    longitude: f64,
+    population: Option<u64>,
+    city: String,
+    state: String,
+}
 
 fn main() {
     if let Err(err) = run() {
