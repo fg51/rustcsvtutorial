@@ -1,4 +1,4 @@
-// tutorial-read-serde-02
+// tutorial-read-serde-invalid-02
 
 extern crate csv;
 extern crate serde;
@@ -15,7 +15,7 @@ struct Record {
     latitude: f64,
     #[serde(rename = "Longitude")]
     longitude: f64,
-    #[serde(rename = "Population")]
+    #[serde(deserialize_with = "csv::invalid_option", rename = "Population")]
     population: Option<u64>,
     #[serde(rename = "City")]
     city: String,
